@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="动态规划总结动态规划算法的设计主要有以下４个步骤(1) 描述最优解的结构(2) 递归定义最优解的值(3) 按自底向上的方式计算最优解的值(4) 由计算出的结果构造一个最优解 其实最核心的步骤是　定义一个描述最优解的递归公式 (状态转移方程)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划总结">
+<meta property="og:url" content="http://yoursite.com/2018/04/03/dp/index.html">
+<meta property="og:site_name" content="Winuzz">
+<meta property="og:description" content="动态规划总结动态规划算法的设计主要有以下４个步骤(1) 描述最优解的结构(2) 递归定义最优解的值(3) 按自底向上的方式计算最优解的值(4) 由计算出的结果构造一个最优解 其实最核心的步骤是　定义一个描述最优解的递归公式 (状态转移方程)">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/dp/dp_装配线调度.png">
+<meta property="og:updated_time" content="2018-07-25T08:54:01.023Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动态规划总结">
+<meta name="twitter:description" content="动态规划总结动态规划算法的设计主要有以下４个步骤(1) 描述最优解的结构(2) 递归定义最优解的值(3) 按自底向上的方式计算最优解的值(4) 由计算出的结果构造一个最优解 其实最核心的步骤是　定义一个描述最优解的递归公式 (状态转移方程)">
+<meta name="twitter:image" content="http://yoursite.com/images/dp/dp_装配线调度.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/03/dp/"/>
+
+
+
+
+
+  <title>动态规划总结 | Winuzz</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Winuzz</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">stay hungry stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/03/dp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zz_wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Winuzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">动态规划总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-03T10:58:50+08:00">
+                2018-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="动态规划总结"><a href="#动态规划总结" class="headerlink" title="动态规划总结"></a>动态规划总结</h2><p>动态规划算法的设计主要有以下４个步骤<br>(1) 描述最优解的结构<br>(2) 递归定义最优解的值<br>(3) 按自底向上的方式计算最优解的值<br>(4) 由计算出的结果构造一个最优解</p>
+<p>其实最核心的步骤是　<strong>定义一个描述最优解的递归公式</strong> (状态转移方程)<br><a id="more"></a></p>
+<p>另外，适合采用动态规划方法求解最优化问题有三个特性：最优子结构、重叠子问题、无后效性</p>
+<p>(1) 最优子结构: 问题的一个最优解中所包含的子问题的解也是最优的。总问题包含很多个子问题，而这些子问题的解也是最优的。</p>
+<p>(2) 重叠子问题: 问题重叠性质是指在用递归算法自顶向下对问题进行求解时，每次产生的子问题并不总是新问题，有些子问题会被重复计算多次。动态规划算法正是利用了这种子问题的重叠性质，对每一个子问题只计算一次，然后将其计算结果保存在一个表格中，当再次需要计算已经计算过的子问题时，只是在表格中简单地查看一下结果，从而获得较高的效率。</p>
+<p>(3) 无后效性：将各阶段按照一定的次序排列好之后，对于某个给定的阶段状态，它以前各阶段的状态无法直接影响它未来的决策，而只能通过当前的这个状态。换句话说，每个状态都是过去历史的一个完整总结。这就是无后向性，又称为无后效性。</p>
+<p>备忘录法：动态规划的一种变形，使用自顶向下的策略，更像递归算法。初始化时表中填入一个特殊值表示待填入，当递归算法第一次遇到一个子问题时，计算并填表；以后每次遇到时只需返回以前填入的值。实例可以参照矩阵链乘法部分。</p>
+<h2 id="状态转移方程"><a href="#状态转移方程" class="headerlink" title="状态转移方程"></a>状态转移方程</h2><p>opt作为取最优值的函数（一般取min或max）, w(j, i)为一个实函数，其它变量都可以在常数时间计算出来</p>
+<p>（１）　1D/1D</p>
+<pre><code>d[i] = opt{ d[j] + w(j, i) | 0 &lt;= i &lt; j } (1 &lt;= i &lt;= n)
+</code></pre><p>（２）　2D/0D</p>
+<pre><code>d[i][j] = opt{ d[i-1][j] + xi, d[i][j-1] + yj, d[i-1][j-1] + zij }     (1&lt;= i, j &lt;= n)
+</code></pre><p>（３）　2D/1D</p>
+<pre><code>d[i][j] = w(i, j) + opt{ d[i][k-1] + d[k][j] }, (1 &lt;= i &lt; j &lt;= n)
+</code></pre><p>另外一种常用的2D/1D的方程为：</p>
+<pre><code>d[i][j] = opt{ d[i-1][k] + w(i, j, k) | k &lt; j }    (1&lt;= i &lt;= n, 1 &lt;= j &lt;= m)
+</code></pre><p>（４）　2D/2D</p>
+<pre><code>d[i][j] = opt{ d[i&apos;][j&apos;] + w(i&apos;, j&apos;, i, j) |  0 &lt;= i&apos; &lt; i, 0 &lt;= j&apos; &lt; j}
+</code></pre><p>常见于二维的迷宫问题，由于复杂度比较大，所以一般配合数据结构优化，如线段树、树状数组等。</p>
+<h2 id="常见题型"><a href="#常见题型" class="headerlink" title="常见题型"></a>常见题型</h2><h3 id="线性模型"><a href="#线性模型" class="headerlink" title="线性模型"></a>线性模型</h3><p>线性模型的是动态规划中最常用的模型，上文讲到的最长单调子序列就是经典的线性模型，这里的线性指的是状态的排布是呈线性的</p>
+<p>硬币找零<br>假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。</p>
+<p>解法：<br>　　用待找零的数值k描述子结构/状态，记作sum[k]，其值为所需的最小硬币数。对于不同的硬币面值coin[0…n]，有sum[k] = min(sum[k-coin[0]] , sum[k-coin[1]], …)+1。对应于给定数目的找零total，需要求解sum[total]的值。</p>
+<pre><code>void find_coins( vector&lt;int&gt; coins，int total ){
+int sum[total+1];
+for(int i=1; i&lt;=total; i++)
+{
+    sum[i] = INT_MAX;
+}
+sum[0] = 0;
+for(int i=1;i&lt;=total;i++)
+{
+    for(int j=0;j&lt;coins.size();j++)
+    {
+        if( (i-coins[j])&gt;=0 &amp;&amp; sum[i] &gt; sum[i-  coins[j]]+1)
+        sum[i] = sum[i-coins[j]]+1;
+}}    }
+</code></pre><p>扩展：　装配线调度（《算法导论》15.1），解法如下图所示<br><img src="/images/dp/dp_装配线调度.png" alt="装配线调度"></p>
+<h3 id="区间模型"><a href="#区间模型" class="headerlink" title="区间模型"></a>区间模型</h3><p>区间模型的状态表示一般为d[i][j]，表示区间[i, j]上的最优解，然后通过状态转移计算出[i+1, j]或者[i, j+1]上的最优解，逐步扩大区间的范围，最终求得[1, len]的最优解。</p>
+<h3 id="最长公共子序列-Longest-Common-Subsequence-lcs"><a href="#最长公共子序列-Longest-Common-Subsequence-lcs" class="headerlink" title="最长公共子序列(Longest Common Subsequence,lcs)"></a>最长公共子序列(Longest Common Subsequence,lcs)</h3><p>　　对于序列S和T，求它们的最长公共子序列。例如X={A,B,C,B,D,A,B}，Y={B,D,C,A,B,A}则它们的lcs是{B,C,B,A}和{B,D,A,B}。求出一个即可。</p>
+<p>解法：<br>　　<br>对于X[1…m]和Y[1…n]，它们的任意一个lcs是Z[1…k]。</p>
+<p>　　(1)如果X[m]=Y[n]，那么Z[k]=X[m]=Y[n],且Z[1…k-1]是X[1…m-1]和Y[1…n-1]的一个lcs；</p>
+<p>　　(2)如果X[m]!=Y[n]，那么Z[k]!=X[m]时Z是X[1…m-1]和Y的一个lcs；</p>
+<p>　　(3)如果X[m]!=Y[n]，那么Z[k]!=Y[n]时Z是X和Y[1…n-1]的一个lcs；</p>
+<pre><code>int max(int a, int b);
+/* Returns length of LCS for X[0..m-1], Y[0..n-1] */
+int lcs( char *X, char *Y, int m, int n )
+{
+    if (m == 0 || n == 0)
+      return 0;
+    if (X[m-1] == Y[n-1])
+      return 1 + lcs(X, Y, m-1, n-1);
+    else
+      return max(lcs(X, Y, m, n-1), lcs(X, Y, m-1, n));}
+</code></pre><h3 id="字符串相似度-编辑距离（edit-distance）"><a href="#字符串相似度-编辑距离（edit-distance）" class="headerlink" title="字符串相似度/编辑距离（edit distance）"></a>字符串相似度/编辑距离（edit distance）</h3><p>对于序列S和T，它们之间距离定义为：对二者其一进行几次以下的操作(1)删去一个字符；(2)插入一个字符；(3)改变一个字符。每进行一次操作，计数增加1。将S和T变为同一个字符串的最小计数即为它们的距离。给出相应算法。</p>
+<p>解法：<br>　　将S和T的长度分别记为len(S)和len(T)，并把S和T的距离记为m[len(S)][len(T)]，有以下几种情况：</p>
+<p>如果末尾字符相同，那么m[len(S)][len(T)]=m[len(S)-1][len(T)-1]；</p>
+<p>如果末尾字符不同，有以下处理方式:</p>
+<p>　　修改S或T末尾字符使其与另一个一致来完成，m[len(S)][len(T)]=m[len(S)-1][len(T)-1]+1；</p>
+<p>　　在S末尾插入T末尾的字符，比较S[1…len(S)]和S[1…len(T)-1]；</p>
+<p>　　在T末尾插入S末尾的字符，比较S[1…len(S)-1]和S[1…len(T)]；</p>
+<p>　　删除S末尾的字符，比较S[1…len(S)-1]和S[1…len(T)]；</p>
+<p>　　删除T末尾的字符，比较S[1…len(S)]和S[1…len(T)-1]；</p>
+<p>　　总结为，对于i&gt;0,j&gt;0的状态(i,j):</p>
+<pre><code>m[i][j] = min( m[i-1][j-1]+(s[i]==s[j])?0:1 , m[i-1][j]+1, m[i][j-1] +1)
+</code></pre><p>　　这里的重叠子结构是S[1…i]，T[1…j]。</p>
+<h3 id="背包模型"><a href="#背包模型" class="headerlink" title="背包模型"></a>背包模型</h3><p>(1)0/1背包</p>
+<p>有N种物品（每种物品1件）和一个容量为V的背包。放入第 i 种物品耗费的空间是Ci，得到的价值是Wi。求解将哪些物品装入背包可使价值总和最大。f[i][v]表示前i种物品恰好放入一个容量为v的背包可以获得的最大价值。决策为第i个物品在前i-1个物品放置完毕后，是选择放还是不放，</p>
+<p>状态转移方程为： f[i][v] = max{ f[i-1][v], f[i-1][v - Ci] +Wi } 时间复杂度O(VN)，空间复杂度O(VN) （空间复杂度可利用滚动数组进行优化达到O(V)，下文会介绍滚动数组优化）。</p>
+<p>(2) 完全背包</p>
+<p>有N种物品（每种物品无限件）和一个容量为V的背包。放入第 i 种物品耗费的空间是Ci，得到的价值是Wi。求解将哪些物品装入背包可使价值总和最大。f[i][v]表示前i种物品恰好放入一个容量为v的背包可以获得的最大价值。</p>
+<p>状态转移方程为：<br>    f[i][v] = max{ f[i-1][v - kCi] + kWi | 0 &lt;= k &lt;= v/Ci } (当k的取值为0,1时，这就是01背包的状态转移方程）</p>
+<p>时间复杂度O( VNsum{V/Ci} )，空间复杂度在用滚动数组优化后可以达到O( V )。</p>
+<p>进行优化后，状态转移方程变成：<br>    f[i][v] = max{ f[i-1][v], f[i][v - Ci] +Wi }<br>时间复杂度降为O(VN)。</p>
+<p>(3) 多重背包</p>
+<p>有N种物品（每种物品Mi件）和一个容量为V的背包。放入第i种物品耗费的空间是Ci，得到的价值是Wi。求解将哪些物品装入背包可使价值总和最大。f[i][v]表示前i种物品恰好放入一个容量为v的背包可以获得的最大价值。<br>状态转移方程<br>    f[i][v] = max{ f[i-1][v - kCi] + kWi | 0 &lt;= k &lt;= Mi }　<br>    时间复杂度O( Vsum(Mi) )，空间复杂度仍然可以用滚动数组优化后可以达到O( V )。</p>
+<p>优化：采用二进制拆分物品，将Mi个物品拆分成容量为1、2、4、8、… 2^k、Mi-( 2^(k+1) - 1 ) 个对应价值为Wi、2Wi、4Wi、8Wi、…、2^kWi、（Mi-( 2^(k+1) - 1 )）Wi的物品，然后采用01背包求解。这样做的时间复杂度降为O(Vsum(logMi) )。</p>
+<h3 id="状态压缩模型"><a href="#状态压缩模型" class="headerlink" title="状态压缩模型"></a>状态压缩模型</h3><p>状态压缩的动态规划，一般处理的是数据规模较小的问题，将状态压缩成k进制的整数，k取2时最为常见。<br>举例：对于一条n(n &lt;= 11)个点的哈密尔顿路径C1C2…CN（经过每个点一次的路径）的值由三部分组成：</p>
+<p>（１）每个顶点的权值Vi的和</p>
+<p>（２）对于路径上相邻的任意两个顶点CiCi+1，累加权值乘积 Vi*Vi+1</p>
+<p>（３）对于相邻的三个顶点CiCi+1Ci+2，如果Ci和Ci+2之间有边，那么累加权值三乘积 ViVi+1Vi+2<br>求值最大的哈密尔顿路径的权值 和 这样的路径的个数。</p>
+<p>直接给出状态转移方程：<br>    d[i][j][k] = max{ d[i ^ (1&lt;&lt;k)][t][j] + w(t, j, k) | (i &amp; (1&lt;&lt;t)) != 0 }</p>
+<h3 id="树状模型"><a href="#树状模型" class="headerlink" title="树状模型"></a>树状模型</h3><p>树形动态规划（树形DP），是指状态图是一棵树，状态转移也发生在树上，父结点的值通过所有子结点计算完毕后得出。<br>动态规划求解的一般思路</p>
+<p>举例：给定一颗树，和树上每个结点的权值，求一颗非空子树，使得权和最大。<br>用d[1][i] 表示i这个结点选中的情况下，以i为根的子树的权和最大值;<br>用d[0][i]表示i这个结点不选中的情况下，以i为根的子树的权和最大值;</p>
+<p>d[1][i] = v[i] + sum{ d[1][v] | v是i的直接子结点 &amp;&amp; d[1][v] &gt; 0 }</p>
+<p>d[0][i] = max( 0, max{ max( d[0][v], d[1][v] ) | v是i的直接子结点 } )</p>
+<p>这样，构造一个以1为根结点的树，然后就可以通过dfs求解了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/01/hexo-init/" rel="next" title="使用hexo和github Pages搭建博客">
+                <i class="fa fa-chevron-left"></i> 使用hexo和github Pages搭建博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/10/restful/" rel="prev" title="理解restful架构">
+                理解restful架构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zz_wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态规划总结"><span class="nav-number">1.</span> <span class="nav-text">动态规划总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态转移方程"><span class="nav-number">2.</span> <span class="nav-text">状态转移方程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见题型"><span class="nav-number">3.</span> <span class="nav-text">常见题型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性模型"><span class="nav-number">3.1.</span> <span class="nav-text">线性模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区间模型"><span class="nav-number">3.2.</span> <span class="nav-text">区间模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最长公共子序列-Longest-Common-Subsequence-lcs"><span class="nav-number">3.3.</span> <span class="nav-text">最长公共子序列(Longest Common Subsequence,lcs)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串相似度-编辑距离（edit-distance）"><span class="nav-number">3.4.</span> <span class="nav-text">字符串相似度/编辑距离（edit distance）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#背包模型"><span class="nav-number">3.5.</span> <span class="nav-text">背包模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态压缩模型"><span class="nav-number">3.6.</span> <span class="nav-text">状态压缩模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树状模型"><span class="nav-number">3.7.</span> <span class="nav-text">树状模型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zz_wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

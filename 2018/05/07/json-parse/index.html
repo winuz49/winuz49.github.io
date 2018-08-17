@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="json格式json 分为种类型 一种是包含键值对的对象 一种是值的序列，即是数组 具体可以分为从此例子可看出，JSON 是树状结构，而 JSON 只包含 6 种数据类型：null: 表示为 nullboolean: 表示为 true 或 falsenumber: 一般的浮点数表示方式string: 表示为 “…”array: 表示为 [ … ]object: 表示为 { … }">
+<meta property="og:type" content="article">
+<meta property="og:title" content="json解析器">
+<meta property="og:url" content="http://yoursite.com/2018/05/07/json-parse/index.html">
+<meta property="og:site_name" content="Winuzz">
+<meta property="og:description" content="json格式json 分为种类型 一种是包含键值对的对象 一种是值的序列，即是数组 具体可以分为从此例子可看出，JSON 是树状结构，而 JSON 只包含 6 种数据类型：null: 表示为 nullboolean: 表示为 true 或 falsenumber: 一般的浮点数表示方式string: 表示为 “…”array: 表示为 [ … ]object: 表示为 { … }">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-25T08:54:01.023Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="json解析器">
+<meta name="twitter:description" content="json格式json 分为种类型 一种是包含键值对的对象 一种是值的序列，即是数组 具体可以分为从此例子可看出，JSON 是树状结构，而 JSON 只包含 6 种数据类型：null: 表示为 nullboolean: 表示为 true 或 falsenumber: 一般的浮点数表示方式string: 表示为 “…”array: 表示为 [ … ]object: 表示为 { … }">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/07/json-parse/"/>
+
+
+
+
+
+  <title>json解析器 | Winuzz</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Winuzz</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">stay hungry stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/json-parse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zz_wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Winuzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">json解析器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-07T11:24:50+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="json格式"><a href="#json格式" class="headerlink" title="json格式"></a>json格式</h2><p>json 分为种类型 一种是包含键值对的对象 一种是值的序列，即是数组 具体可以分为从此例子可看出，JSON 是树状结构，而 JSON 只包含 6 种数据类型：<br>null: 表示为 null<br>boolean: 表示为 true 或 false<br>number: 一般的浮点数表示方式<br>string: 表示为 “…”<br>array: 表示为 [ … ]<br>object: 表示为 { … }<br><a id="more"></a></p>
+<p>json库的需求：<br>(1) 把 JSON 文本解析为一个树状数据结构<br>(2) 提供接口访问该数据结构<br>(3) 把数据结构转换成 JSON 文本</p>
+<p>提供一个向下递归的解析器 解析的规则如下所示：<br>n ➔ null<br>t ➔ true<br>f ➔ false<br>“ ➔ string<br>0-9/- ➔ number<br>[ ➔ array<br>{ ➔ object</p>
+<p>unicode是一种编码方式，映射字符为码点，utf-8/16/32是计算机内部对unicode的三种存储方式，utf-8是可变长度编码，与ASCII兼容。如果只有一个字节则其最高二进制位为0；如果是多字节，其第一个字节从最高位开始，连续的二进制位值为1的个数决定了其编码的字节数，其余各字节均以10开头。 </p>
+<h2 id="解析null-true-false"><a href="#解析null-true-false" class="headerlink" title="解析null true false"></a>解析null true false</h2><p>判断字符串的开始字符 ‘n’ ‘t’ ‘f’ 并进行相应操作</p>
+<pre><code>static int wizz_parse_literal(wizz_context *c, wizz_value* v, const char* literal, wizz_type type){
+expect(c,literal[0]);
+size_t i;
+for(i=0;literal[i+1];i++)
+{
+    if(c-&gt;json[i]!=literal[i+1])
+        return WIZZ_PARSE_INVALID_VALUE;
+}
+
+c-&gt;json += i;
+v-&gt;type = type;
+return WIZZ_PARSE_OK;}
+</code></pre><h2 id="解析数字"><a href="#解析数字" class="headerlink" title="解析数字"></a>解析数字</h2><pre><code>strtod (const char* str, char**endptr); 
+</code></pre><p>Convert string to double  str目标字符串 endptr 转换成功返回数字字符串最后一位的后一位</p>
+<p>使用strtod函数解析数字：</p>
+<pre><code>static int wizz_parse_number(wizz_context* c, wizz_value* v)
+{
+    char *end;
+    v-&gt;n = strtod(c-&gt;json, &amp;end);
+
+    if(c-&gt;json == end)
+        return WIZZ_PARSE_INVALID_VALUE;
+     c-&gt;json = end;
+     v-&gt;type = WIZZ_NUMBER;
+     return WIZZ_PARSE_OK;}
+</code></pre><p>利用stack存储字符串 判断“作为字符串开始 另一个”作为结束 判断转移字符</p>
+<pre><code>static void put_ch(wizz_context* c, char ch)
+{
+    *(char*)wizz_context_push(c, sizeof(char)) = ch;
+}
+
+static int wizz_parse_string(wizz_context* c, wizz_value* v){
+expect(c, &apos;\&quot;&apos;);
+size_t head=c-&gt;top, len;
+const char* p = c-&gt;json;
+while(true)
+{
+    char ch = *p++;
+    switch (ch) {
+    case &apos;\&quot;&apos;:
+        len = c-&gt;top - head;
+        wizz_set_string(v, (const char*)wizz_context_pop(c, len), len);
+        c-&gt;json = p;
+        return WIZZ_PARSE_OK;
+    case &apos;\0&apos;:
+        c-&gt;top = head;
+        return WIZZ_PARSE_MISS_QUOTATION_MARK;
+    case &apos;\\&apos;:
+        switch (*p++) {
+            case &apos;\&quot;&apos;: put_ch(c, &apos;\&quot;&apos;); break;
+            case &apos;\\&apos;: put_ch(c, &apos;\\&apos;); break;
+            case &apos;/&apos;:  put_ch(c, &apos;/&apos; ); break;
+            case &apos;b&apos;:  put_ch(c, &apos;\b&apos;); break;
+            case &apos;f&apos;:  put_ch(c, &apos;\f&apos;); break;
+            case &apos;n&apos;:  put_ch(c, &apos;\n&apos;); break;
+            case &apos;r&apos;:  put_ch(c, &apos;\r&apos;); break;
+            case &apos;t&apos;:  put_ch(c, &apos;\t&apos;); break;
+            default:
+                 c-&gt;top = head;
+                 return WIZZ_PARSE_INVALID_STRING_ESCAPE;
+            }
+            break;
+    default:
+        put_ch(c, ch);
+    }
+
+}}
+</code></pre><h2 id="解析数组"><a href="#解析数组" class="headerlink" title="解析数组"></a>解析数组</h2><p>利用栈存储数组元素 遇到’[‘进入数组解析 开始解析元素，解析’,’前的元素 遇到’]’出栈 将栈中所有元素存储为数组元素，具体代码如下所示：</p>
+<pre><code>static int wizz_parse_array(wizz_context* c, wizz_value* v){
+size_t size = 0;
+int ret;
+
+expect(c, &apos;[&apos;);
+wizz_parse_whitespace(c);
+if(*c-&gt;json == &apos;]&apos;)
+{
+    c-&gt;json++;
+    v-&gt;type = WIZZ_ARRAY;
+    v-&gt;u.a.size = 0;
+    v-&gt;u.a.e = NULL;
+    return WIZZ_PARSE_OK;
+}
+
+while(true)
+{
+    wizz_value e;
+    wizz_init(&amp;e);
+    if((ret = wizz_parse_value(c, &amp;e)) != WIZZ_PARSE_OK)
+        break;
+    wizz_parse_whitespace(c);
+    printf(&quot;value type:%d\n&quot;, e.type);
+    memcpy(wizz_context_push(c, sizeof(wizz_value)), &amp;e, sizeof(wizz_value));
+    size++;
+
+    if(*c-&gt;json==&apos;,&apos;)
+    {
+        c-&gt;json++;
+        wizz_parse_whitespace(c);
+    }
+    else if(*c-&gt;json == &apos;]&apos;){
+        c-&gt;json++;
+        v-&gt;type = WIZZ_ARRAY;
+        v-&gt;u.a.size = size;
+        size *= sizeof(wizz_value);
+        memcpy(v-&gt;u.a.e=(wizz_value* )malloc(size), wizz_context_pop(c, size),size);
+        return WIZZ_PARSE_OK;
+    }
+    else{
+
+        ret = WIZZ_PARSE_MISS_COMMA_OR_SQUARE_BRACKET;
+        break;
+    }
+}
+// avoid memory leak
+for(size_t i=0;i&lt;size;i++)
+{
+    wizz_free((wizz_value*)wizz_context_pop(c, sizeof(wizz_value)));
+}
+
+return ret;}
+</code></pre><h2 id="解析对象"><a href="#解析对象" class="headerlink" title="解析对象"></a>解析对象</h2><p>使用动态数组存储键 使用自定义的wizz_value(解析数字 数组等)作为值</p>
+<pre><code>object = %x7B ws [ member *( ws %x2C ws member ) ] ws %x7D
+</code></pre><p>根据上述格式进行递归</p>
+<pre><code>static int wizz_parse_object(wizz_context* c, wizz_value* v){
+expect(c, &apos;{&apos;);
+wizz_member m;
+int ret;
+size_t size;
+wizz_parse_whitespace(c);
+if(*c-&gt;json==&apos;}&apos;)
+{
+    c-&gt;json++;
+    v-&gt;type = WIZZ_OBJECT;
+    v-&gt;u.o.size = 0;
+    v-&gt;u.o.m = 0;
+    return WIZZ_PARSE_OK;
+}
+
+m.k = NULL;
+size = 0;
+
+while(true)
+{
+    wizz_init(&amp;m.v);
+    char* str;
+
+    if(*c-&gt;json!=&apos;&quot;&apos;)
+    {
+        ret = WIZZ_PARSE_MISS_KEY;
+        break;
+    }
+    if((ret=wizz_parse_string_raw(c,&amp;str,&amp;m.klen))!=WIZZ_PARSE_OK)
+        break;
+
+    memcpy(m.k=(char*)malloc(m.klen+1), str, m.klen);
+    m.k[m.klen] = &apos;\0&apos;;
+    wizz_parse_whitespace(c);
+    if(*c-&gt;json!=&apos;:&apos;)
+    {
+        ret = WIZZ_PARSE_MISS_COLON;
+        break;
+    }
+    c-&gt;json++;
+    wizz_parse_whitespace(c);
+
+    if((ret=wizz_parse_value(c,&amp;m.v))!=WIZZ_PARSE_OK)
+        break;
+    memcpy(wizz_context_push(c, sizeof(wizz_member)), &amp;m, sizeof(wizz_member));
+    size++;
+
+    // prepare for the next parse
+    m.k = NULL;
+
+    wizz_parse_whitespace(c);
+    if(*c-&gt;json == &apos;,&apos;)
+    {
+        c-&gt;json++;
+        wizz_parse_whitespace(c);
+
+    }else if(*c-&gt;json == &apos;}&apos;)
+    {
+        c-&gt;json++;
+        v-&gt;type = WIZZ_OBJECT;
+        v-&gt;u.o.size = size;
+        size_t s = sizeof(wizz_member)*size;
+        memcpy(v-&gt;u.o.m = (wizz_member*)malloc(s),wizz_context_pop(c, s),s);
+        return WIZZ_PARSE_OK;
+    }else{
+        ret = WIZZ_PARSE_MISS_COMMA_OR_CURLY_BRACKET;
+        break;
+    }
+}
+
+free(m.k);
+for(size_t i=0;i&lt;size;i++)
+{
+    wizz_member* tmp = (wizz_member*)wizz_context_push(c, sizeof(wizz_member));
+    free(tmp-&gt;k);
+    wizz_free(&amp;tmp-&gt;v);
+}
+v-&gt;type = WIZZ_NULL;
+return ret;}
+</code></pre><h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>   json解析的逆过程 将存储在wizz_value的数据根据类型存储到栈中 将栈的字符串弹出 即是原始字符串</p>
+<p>   解析字符串</p>
+<pre><code>static void wizz_stringify_string(wizz_context* c, const char* s, size_t len) {
+size_t i;
+assert(s != NULL);
+put_ch(c, &apos;&quot;&apos;);
+for (i = 0; i &lt; len; i++) {
+    unsigned char ch = (unsigned char)s[i];
+    switch (ch) {
+        case &apos;\&quot;&apos;: put_s(c, &quot;\\\&quot;&quot;, 2); break;
+        case &apos;\\&apos;: put_s(c, &quot;\\\\&quot;, 2); break;
+        case &apos;\b&apos;: put_s(c, &quot;\\b&quot;,  2); break;
+        case &apos;\f&apos;: put_s(c, &quot;\\f&quot;,  2); break;
+        case &apos;\n&apos;: put_s(c, &quot;\\n&quot;,  2); break;
+        case &apos;\r&apos;: put_s(c, &quot;\\r&quot;,  2); break;
+        case &apos;\t&apos;: put_s(c, &quot;\\t&quot;,  2); break;
+        default:
+            if (ch &lt; 0x20) {
+                char buffer[7];
+                sprintf(buffer, &quot;\\u%04X&quot;, ch);
+                put_s(c, buffer, 6);
+            }
+            else
+                put_ch(c, s[i]);
+    }
+}
+put_ch(c, &apos;&quot;&apos;);}
+</code></pre><p>解析函数 结果存储在json</p>
+<pre><code>int wizz_stringify( wizz_value* v,char** json, size_t* length){
+assert(v!=NULL);
+assert(json!=NULL);
+wizz_context c;
+int ret;
+c.stack= (char*)malloc(c.size = WIZZ_PARSE_STRINGIFY_INIT_SIZE);
+c.top = 0;
+if((ret=wizz_stringify_value(&amp;c,v)) != WIZZ_STRINGIFY_OK)
+{
+    free(c.stack);
+    *json = NULL;
+    return ret;
+}
+put_ch(&amp;c, &apos;\0&apos;);
+if(length)
+    *length = c.top - 1;
+*json = c.stack;
+return WIZZ_STRINGIFY_OK;}
+</code></pre><p>根据不同类型 选择不同方式将内容入栈</p>
+<pre><code>int wizz_stringify_value(wizz_context *c, wizz_value *v){
+switch (v-&gt;type) {
+case WIZZ_NULL:
+    put_s(c,&quot;null&quot;,4);
+    break;
+case WIZZ_TRUE:
+    put_s(c, &quot;true&quot;,4);
+    break;
+case WIZZ_FALSE:
+    put_s(c, &quot;false&quot;,5);
+    break;
+case WIZZ_NUMBER:
+{
+    char* buffer = (char *)wizz_context_push(c, 32);
+    int length = sprintf(buffer, &quot;%.17g&quot;, v-&gt;u.n);
+    c-&gt;top -=32-length;
+}
+    break;
+case WIZZ_STRING:
+    wizz_stringify_string(c,v-&gt;u.s.s, v-&gt;u.s.len);
+    break;
+case WIZZ_ARRAY:
+{
+    put_ch(c, &apos;[&apos;);
+
+    for(size_t i= 0;i&lt;v-&gt;u.a.size;i++)
+    {
+        if(i&gt;0)
+            put_ch(c, &apos;,&apos;);
+        wizz_stringify_value(c,&amp;v-&gt;u.a.e[i]);
+    }
+
+    put_ch(c, &apos;]&apos;);
+}
+    break;
+case WIZZ_OBJECT:
+{
+    put_ch(c, &apos;{&apos;);
+
+    for(size_t i = 0;i&lt;v-&gt;u.o.size;i++)
+    {
+        if(i&gt;0)
+            put_ch(c, &apos;,&apos;);
+        wizz_stringify_string(c, v-&gt;u.o.m[i].k, v-&gt;u.o.m[i].klen);
+        put_ch(c, &apos;:&apos;);
+        wizz_stringify_value(c, &amp;v-&gt;u.o.m[i].v);
+    }
+    put_ch(c,&apos;}&apos;);
+}
+    break;
+}
+
+return WIZZ_STRINGIFY_OK;}
+</code></pre><p>参考： <a href="https://zhuanlan.zhihu.com/json-tutorial" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/json-tutorial</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/16/basic-c/" rel="next" title="c++查漏补缺">
+                <i class="fa fa-chevron-left"></i> c++查漏补缺
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/effective-c/" rel="prev" title="effective c++">
+                effective c++ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zz_wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#json格式"><span class="nav-number">1.</span> <span class="nav-text">json格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析null-true-false"><span class="nav-number">2.</span> <span class="nav-text">解析null true false</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析数字"><span class="nav-number">3.</span> <span class="nav-text">解析数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析数组"><span class="nav-number">4.</span> <span class="nav-text">解析数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析对象"><span class="nav-number">5.</span> <span class="nav-text">解析对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器"><span class="nav-number">6.</span> <span class="nav-text">生成器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zz_wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

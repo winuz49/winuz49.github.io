@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="源码之前　了无秘密 STL概述stl 不仅时可复用组件库 还是包罗算法与数据结果的软件框架 有六大组件 容器 算法 迭代器 仿函数 配接器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stl源码剖析">
+<meta property="og:url" content="http://yoursite.com/2018/06/10/stl/index.html">
+<meta property="og:site_name" content="Winuzz">
+<meta property="og:description" content="源码之前　了无秘密 STL概述stl 不仅时可复用组件库 还是包罗算法与数据结果的软件框架 有六大组件 容器 算法 迭代器 仿函数 配接器">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/stl/stl六大组件.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/alloc.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/alloc_2.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/alloc_3.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/alloc_4.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/alloc_5.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/alloc_6.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/traits技法.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/iterator_traits.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/iterator_category.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/容器.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/vector.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/vector_insert1.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/vector_insert2.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/vector_insert3.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/list.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/list_transfer2.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/list_transfer.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/list_sort.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/deque.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/deque_iterator.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/push_heap.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/pop_heap.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/sort_heap1.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/sort_heap2.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/map.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/hash_linear.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/hash_quard.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/hash_list.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/hash_resize.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/functors.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/functors_eg.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/adapter_iterator.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/adapter_it_reverse.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/adapter_func.png">
+<meta property="og:image" content="http://yoursite.com/images/stl/adapter_func2.png">
+<meta property="og:updated_time" content="2018-07-25T08:54:01.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="stl源码剖析">
+<meta name="twitter:description" content="源码之前　了无秘密 STL概述stl 不仅时可复用组件库 还是包罗算法与数据结果的软件框架 有六大组件 容器 算法 迭代器 仿函数 配接器">
+<meta name="twitter:image" content="http://yoursite.com/images/stl/stl六大组件.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/10/stl/"/>
+
+
+
+
+
+  <title>stl源码剖析 | Winuzz</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Winuzz</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">stay hungry stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/stl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zz_wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Winuzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">stl源码剖析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-10T11:24:39+08:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/notes/" itemprop="url" rel="index">
+                    <span itemprop="name">notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>源码之前　了无秘密</p>
+<h2 id="STL概述"><a href="#STL概述" class="headerlink" title="STL概述"></a>STL概述</h2><p>stl 不仅时可复用组件库 还是包罗算法与数据结果的软件框架 有六大组件 容器 算法 迭代器 仿函数 配接器<br><a id="more"></a></p>
+<p><img src="/images/stl/stl六大组件.png" alt=""></p>
+<p>GPL协议 使用者可以自由阅读与修改GPL软件的源代码 但如果使用着要传播借助GPL软件而完成的软件 他们必须同意GPL规范</p>
+<p>SGI STL 时可读性最高的一份STL</p>
+<p>模板全特化 对于特定类型 需要对模板特化<br>eg:</p>
+<pre><code>template &lt;class T&gt;
+class Compare
+{
+     public:
+     bool IsEqual(const T&amp; arg, const T&amp; arg1);};
+
+template &lt;&gt;
+class Compare&lt;float&gt;
+{
+     public:
+     bool IsEqual(const float&amp; arg, const float&amp; arg1);};
+
+template &lt;class T&gt; 
+bool Compare&lt;T&gt;::IsEqual(const T&amp; arg, const T&amp; arg1)
+{
+     cout&lt;&lt;&quot;Call Compare&lt;T&gt;::IsEqual&quot;&lt;&lt;endl;
+     return (arg == arg1);}
+
+bool Compare&lt;float&gt;::IsEqual(const float&amp; arg, const float&amp; arg1){
+     cout&lt;&lt;&quot;Call Compare&lt;float&gt;::IsEqual&quot;&lt;&lt;endl;
+     return (abs(arg - arg1) &lt; 10e-3);}
+</code></pre><p>模板偏特化 提供另一份template定义式 本身仍然时模板化的 只是针对template参数更一步的条件限制所设计出来的特化版本。</p>
+<p>eg:</p>
+<pre><code>template &lt;class _Iterator&gt;
+struct iterator_traits{
+ typedef typename _Iterator::iterator_category iterator_category;
+ typedef typename _Iterator::value_type        value_type;
+ typedef typename _Iterator::difference_type   difference_type;
+ typedef typename _Iterator::pointer           pointer;
+ typedef typename _Iterator::reference         reference;};
+
+// specialize for _Tp*
+template &lt;class _Tp&gt;
+struct iterator_traits&lt;_Tp*&gt; {
+ typedef random_access_iterator_tag iterator_category;
+ typedef _Tp                         value_type;
+ typedef ptrdiff_t                   difference_type;
+ typedef _Tp*                        pointer;
+ typedef _Tp&amp;                        reference;};
+</code></pre><h2 id="空间配置器"><a href="#空间配置器" class="headerlink" title="空间配置器"></a>空间配置器</h2><p>class Foo{…}<br>Foo *pf = new Foo;<br>deflete pf</p>
+<p>new有两段操作 调用::operater new 配置内存 调用 Foo::Foo() 构造对象内容 delete也有两段操作 Foo::~Foo() 将对象析构 调用::operator delete释放内存<br>内存配置alloc::allocate()由负责 内存释放由alloc::deallocate()负责 对象构造由::construct()负责 对象析构由::destroy()负责<br>stl 规定配置器：</p>
+<p><img src="/images/stl/alloc.png" alt=""></p>
+<p>construct 和 destroy</p>
+<p><img src="/images/stl/alloc_2.png" alt=""></p>
+<p>construct 接受一个指针和一个初值value 通过placement new 将初值设置到指定空间上</p>
+<p>destroy 一个时只接受一个指针 调用该对象的析构函数 另一个时接受first和last迭代器 将[first,last)范围内的对象析构 并通过 <strong>type</strong>traist<t>判断该类型的析构函数是否无关痛痒<br>若是什么都不做 如不是则析构该对象</t></p>
+<p>alloc设计哲学：向heap请求空间 考虑多线程 应对内存不足 应对内存碎片问题</p>
+<p>SGI设计了双层配置器 配置区超过128字节 采用第 一级配置器 malloc + free 第二级配置器根据不同情况采取不同策略<br><img src="/images/stl/alloc_3.png" alt=""></p>
+<p>第一级配置器 使用malloc和free 并封装一层接口<br><img src="/images/stl/alloc_4.png" alt=""></p>
+<p>第二级配置器维护一个free_list[16] 分别指向8的倍数且不大于128区块，当free list喂初始化或空间不够 从内存池申请空间。<br><img src="/images/stl/alloc_5.png" alt=""></p>
+<p>POD意指 Plain Old Data 也就是标量型别或传统的C struct型别。POD型别必然拥有trivial ctor/dtor/copy/assignment函数 可以对POD型采用最有效率的填写法 对非POD采用保险的构造函数做法。<br><img src="/images/stl/alloc_6.png" alt=""></p>
+<h2 id="迭代器-与traits编程技法"><a href="#迭代器-与traits编程技法" class="headerlink" title="迭代器 与traits编程技法"></a>迭代器 与traits编程技法</h2><p>迭代器 一种设计模式 提供一种方法 能够依次访问聚合物的各个元素 而又无需暴露该聚合物的内部表达方式。迭代器是一种智能指针。<br>迭代器相应的型别：利用function template的参数推到机制<br>ctor == constructor<br>dtor ==  destructor</p>
+<p>traits扮演“特性萃取机” 萃取各个迭代器特性 。若要traits有效工作 每个迭代器需要遵循约定 自行以内嵌型别定义的方式定义出相应型别。对于原型指针 可以使用偏特化模板</p>
+<p><img src="/images/stl/traits技法.png" alt=""></p>
+<p>最常用的迭代器型别 value type , difference type, pointer, reference, iterator category</p>
+<p><img src="/images/stl/iterator_traits.png" alt=""></p>
+<p>value type 迭代器所指对象的型别</p>
+<p>difference type 两个迭代器之间的距离</p>
+<p>reference type 迭代器所指之物引用</p>
+<p>pointer type  迭代器所指之物的指针</p>
+<p>iterator category     迭代器的类别，不同类别，函数实现方式不同，类别如下所示：</p>
+<p><img src="/images/stl/iterator_category.png" alt=""></p>
+<p>traits编程技法 利用 “内嵌型别”的编程技巧和编译器template参数推导功能，增强c++未能提供的关于型别认证方面的能力。</p>
+<h2 id="序列式容器"><a href="#序列式容器" class="headerlink" title="序列式容器"></a>序列式容器</h2><p><img src="/images/stl/容器.png" alt=""></p>
+<p>vector  动态空间 实现的关键是大小的控制和重新配置时数据移动的效率</p>
+<p><img src="/images/stl/vector.png" alt=""></p>
+<p>vector insert的三种情况</p>
+<p>插入点后元素个数大于插入元素个数<br><img src="/images/stl/vector_insert1.png" alt=""></p>
+<p>插入点后元素个数小于插入元素个数</p>
+<p><img src="/images/stl/vector_insert2.png" alt=""></p>
+<p>空间不够</p>
+<p><img src="/images/stl/vector_insert3.png" alt=""></p>
+<p>list 双向链表 环状双向链表 使用一个空白节点标记环链表的尾端</p>
+<p><img src="/images/stl/list.png" alt=""></p>
+<p>transfer操作源代码 修改六个结点的指针 6次指针修改<br><img src="/images/stl/list_transfer2.png" alt=""></p>
+<p>list的transfer操作</p>
+<p><img src="/images/stl/list_transfer.png" alt=""></p>
+<p>list的sort算法<br><img src="/images/stl/list_sort.png" alt=""></p>
+<p>list&lt;T, Alloc&gt; counter[64]存放归并过程的中间变量<br>counter[0]里存放小于2^1次方个元素 个数为2时进位并置空<br>counter[1]里存放小于2^2次方个元素 个数为4时进位并置空<br>counter[2]里存放小于2^3次方个元素 个数为8时进位并置空</p>
+<p>使用merge进行归并排序</p>
+<p>参考链接： </p>
+<p><a href="https://blog.csdn.net/qq276592716/article/details/7932483" target="_blank" rel="noopener">https://blog.csdn.net/qq276592716/article/details/7932483</a></p>
+<p>deque<br>双向开口的连续线性空间，通过指针的指针map来管缓冲区<br><img src="/images/stl/deque.png" alt=""></p>
+<p>deque 迭代器示意图</p>
+<p><img src="/images/stl/deque_iterator.png" alt=""></p>
+<p>deque的构造 设置map_pointer的大小 为每个node分配空间 设置iterator start finish</p>
+<p>stack 后进先出 container adapter 没有迭代器 底层可以是list或deque</p>
+<p>queue 先进先出 container adapter 没有迭代器 底层可以是list或deque</p>
+<p>heap 没有迭代器<br>完全二叉树 最大堆或最小堆 stl提供的是最大堆</p>
+<p>push_heap 算法 将插入值放入尾端 根据值大小向上调整<br><img src="/images/stl/push_heap.png" alt=""><br>pop_heap算法 根据值向下调整 将头结点置于尾端<br><img src="/images/stl/pop_heap.png" alt=""><br>sort_heap算法 不断使用pop_heap使之有序 排序后的heap不是合法的<br><img src="/images/stl/sort_heap1.png" alt=""></p>
+<p><img src="/images/stl/sort_heap2.png" alt=""></p>
+<p>priority_queue 优先队列    缺省情况下利用max-heap实现 底端插入 顶层输入权值最大的元素 container adapter 没有迭代器</p>
+<p>slist 单向链表</p>
+<h2 id="关联式容器"><a href="#关联式容器" class="headerlink" title="关联式容器"></a>关联式容器</h2><p>avl树 左右子树的高度最多相差1 单旋转 双旋转<br>红黑树 平衡二叉搜索树 双向迭代器<br>(1) 每个节点不是红就是黑<br>(2) 根是黑<br>(3) 节点为红 其子节点必须为黑<br>(4) 任一节点至NULL的任何路径 其黑色节点数相同</p>
+<p>插入操作详见 算法导论</p>
+<p>set 底层为RB-tree RB-tree是set中的成员变量 insert erase操作基于RB-tree的insert erase，multiset 允许键值重复 调用的是RB-tree的insert_equal() 而不是insert-unique()</p>
+<p>map 所有元素是pair两个元素不能拥有相同的键值 底层为RB-tree RB-tree中元素是pair&lt;key, value&gt; RB-tree是set中的成员变量 insert erase操作基于RB-tree的insert erase，multimap 允许键值重复 调用的是RB-tree的insert_equal() 而不是insert-unique()<br><img src="/images/stl/map.png" alt=""></p>
+<p>hashtable<br>插入 删除 查询 常数时间</p>
+<p>散列函数 计算出某个函数的插入位置  若位置已经被用 则顺序向下寻找到空位置为止<br>线性探测 两个条件 表格足够大 每个元素相互独立</p>
+<p><img src="/images/stl/hash_linear.png" alt=""></p>
+<p>二次探测 计算出的位置是H 依序尝试的H+1^2 H+2^2 H+3^2 … H+i^2  假设表格大小为质数 且永远保持负载系数为0.5以下 每插入一个元素 探测次数不多于2</p>
+<p><img src="/images/stl/hash_quard.png" alt=""></p>
+<p>开链 hash函数为我们分配某一个list 在这个list上进行插入 删除 查询操作 如果list足够短 速度还是很快的。<br>维护linked list的桶子不是STL中的list或slist 而是vector</p>
+<p><img src="/images/stl/hash_list.png" alt=""></p>
+<p>hashtable iterator 中包含hashtable的成员变量 标记是forward_iterator_tag 只重载了operator++ 没有重载operator–</p>
+<p>hashtable  vector&lt;node*, Alloc&gt; buckets作为成员变量 管理<br>所有节点 size_type num_elements 存储元素总数<br>参数：<br>Value 节点实值型别<br>Key 节点键值型别<br>HashFunc 哈希函数<br>ExtractKey 从节点中取出键值的方法（函数或仿函数）<br>EqualKey 判断键值相同与否<br>Alloc 空间配置器</p>
+<p>SGI STL以质数设计表格大小 先将28个质数计算好 提供最接近某数并大于某数的质数</p>
+<p>表格重建判断条件 插入后元素总数大于 bucket vector的大小</p>
+<p>resize 更加元素总数重新筛选质数 并分配大小 并将原来vector中的list 链接到新的vector中</p>
+<p><img src="/images/stl/hash_resize.png" alt=""></p>
+<p>hash_set hash_map hashtable作为成员变量 所有操作调用hashtable对应版本 不支持String 支持char*， hash_map中节点存储的值时pair&lt;key, value&gt;</p>
+<p>hash_multiset hash_multimap 调用的是insert_equal() 而不是insert-unique()</p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><p>质变算法 会改变对象的值 如sort<br>非质变算法 不会改变对象的值 如for_each</p>
+<p>所有算法的前两个参数都是一对迭代器 first和last 习惯采用前闭后开 [fist,last)</p>
+<h2 id="仿函数"><a href="#仿函数" class="headerlink" title="仿函数"></a>仿函数</h2><p>函数对象 又称仿函数 一组具有函数特质的对象<br>SGI STL中分为一元与二元运算 或 算术类 关系类与逻辑类</p>
+<p><img src="/images/stl/functors.png" alt=""><br>实例：</p>
+<p><img src="/images/stl/functors_eg.png" alt=""></p>
+<h2 id="配接器"><a href="#配接器" class="headerlink" title="配接器"></a>配接器</h2><p>一种设计模式 可以应用于仿函数 容器 迭代器</p>
+<p>迭代器配接器 使得迭代器更很好用 类别 output_iterator_tag</p>
+<p><img src="/images/stl/adapter_iterator.png" alt=""></p>
+<p>resverse例子</p>
+<p><img src="/images/stl/adapter_it_reverse.png" alt=""></p>
+<p>仿函数迭代器 通过函数之间的绑定 组合 修饰能力 几乎可以无限创造出各种可能的表达式 成员函数类型时 X*或X&amp; 可以使用关键virtual 借此实现多态</p>
+<p>仿函数实例<br><img src="/images/stl/adapter_func.png" alt=""></p>
+<p>仿函数count_if剖析<br><img src="/images/stl/adapter_func2.png" alt=""></p>
+<p>容器迭代器 stack queue 装饰模式 真正起作用的类实例作为配接器的成员变量</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/effective-c/" rel="next" title="effective c++">
+                <i class="fa fa-chevron-left"></i> effective c++
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/17/c-object/" rel="prev" title="c++对象模型">
+                c++对象模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zz_wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#STL概述"><span class="nav-number">1.</span> <span class="nav-text">STL概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空间配置器"><span class="nav-number">2.</span> <span class="nav-text">空间配置器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器-与traits编程技法"><span class="nav-number">3.</span> <span class="nav-text">迭代器 与traits编程技法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列式容器"><span class="nav-number">4.</span> <span class="nav-text">序列式容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关联式容器"><span class="nav-number">5.</span> <span class="nav-text">关联式容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法"><span class="nav-number">6.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#仿函数"><span class="nav-number">7.</span> <span class="nav-text">仿函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配接器"><span class="nav-number">8.</span> <span class="nav-text">配接器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zz_wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
