@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="from 深入浅出c++对象模型">
+<meta name="description" content="from 深入浅出c++对象模型 c++对象模型C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual) static data  static function non-static function 存放在对象之外 non-static data 和 virtual funct">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c++对象模型">
 <meta property="og:url" content="http://yoursite.com/2018/08/17/c-object/index.html">
 <meta property="og:site_name" content="Winuzz">
-<meta property="og:description" content="from 深入浅出c++对象模型">
+<meta property="og:description" content="from 深入浅出c++对象模型 c++对象模型C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual) static data  static function non-static function 存放在对象之外 non-static data 和 virtual funct">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-17T08:48:17.224Z">
+<meta property="og:updated_time" content="2018-08-22T15:35:39.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c++对象模型">
-<meta name="twitter:description" content="from 深入浅出c++对象模型">
+<meta name="twitter:description" content="from 深入浅出c++对象模型 c++对象模型C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual) static data  static function non-static function 存放在对象之外 non-static data 和 virtual funct">
 
 
 
@@ -342,6 +342,17 @@
 
       
         <p>from 深入浅出c++对象模型</p>
+<h2 id="c-对象模型"><a href="#c-对象模型" class="headerlink" title="c++对象模型"></a>c++对象模型</h2><p>C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual)</p>
+<p>static data  static function non-static function 存放在对象之外</p>
+<p>non-static data 和 virtual function 存入对象内</p>
+<p>vtbl是存储指向虚函数的指针的表格 vptr指向相关的vtbl    </p>
+<a id="more"></a>
+<p>todo 添加两张图</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>被合成的默认构造函数只满足编译器的需求 而不是程序的需求</p>
+<p>有四种情况使用被合成的默认构造函数<br>（1）带有默认构造函数的成员对象变量<br>（2）带有默认构造函数的基类 子类调用基类默认构造函数<br>（3）带有virtual function的类<br>（4）带有virtual base class 的类</p>
+<p>在默认构造函数中 只有基类的对象成员 和 自身的对象成员变量会被初始化<br>其它的non-static 变量 如整数 指针不会被初始化</p>
+<p>拷贝构造使用的情况<br>（1） 用于第一次作为初值进行初始化 X x;  X xx=x;<br>（2） 函数传递  值传递<br>（3） 函数返回值</p>
+<p>拷贝构造函数在编译器需要时生成 使用默认成员拷贝 对成员变量逐个拷贝</p>
 
       
     </div>
@@ -426,8 +437,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -487,6 +507,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#c-对象模型"><span class="nav-number">1.</span> <span class="nav-text">c++对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
