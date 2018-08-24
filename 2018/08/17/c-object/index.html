@@ -86,10 +86,20 @@
 <meta property="og:site_name" content="Winuzz">
 <meta property="og:description" content="from 深入浅出c++对象模型 c++对象模型C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual) static data  static function non-static function 存放在对象之外 non-static data 和 virtual funct">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-22T15:35:39.440Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/非继承c++对象模型.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/单继承关系.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/单继承c++模型.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/多继承关系.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/多重继承的c++对象模型.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/返回拷贝1.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/返回拷贝2.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/返回拷贝3.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/返回拷贝4.png">
+<meta property="og:updated_time" content="2018-08-24T06:25:13.295Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c++对象模型">
 <meta name="twitter:description" content="from 深入浅出c++对象模型 c++对象模型C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual) static data  static function non-static function 存放在对象之外 non-static data 和 virtual funct">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/17/c-object/c-object/非继承c++对象模型.png">
 
 
 
@@ -345,15 +355,33 @@
 <h2 id="c-对象模型"><a href="#c-对象模型" class="headerlink" title="c++对象模型"></a>c++对象模型</h2><p>C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual)</p>
 <p>static data  static function non-static function 存放在对象之外</p>
 <p>non-static data 和 virtual function 存入对象内</p>
-<p>vtbl是存储指向虚函数的指针的表格 vptr指向相关的vtbl    </p>
-<a id="more"></a>
-<p>todo 添加两张图</p>
+<p>在此模型下，nonstatic 数据成员被置于每一个类对象中，而static数据成员被置于类对象之外。static与nonstatic函数也都放在类对象之外，而对于virtual 函数，则通过虚函数表+虚指针来支持。</p>
+<p>vptr是虚函数 虚函数指针指向虚函数表,虚函数表中存储的是一系列虚函数的地址，<br>虚函数地址出现的顺序与类中虚函数声明的顺序一致。</p>
+<p>对象只包含非静态成员变量和vptr 虚函数指针  指向类生成的虚表。</p>
+<p><img src="./c-object/非继承c++对象模型.png" alt=""></p>
+<p>c++继承的对象模型示意图</p>
+<p>单继承的 C++模型</p>
+<p>类之间关系如下：<br><img src="./c-object/单继承关系.png" alt=""></p>
+<p>对象模型如下：<br><img src="./c-object/单继承c++模型.png" alt=""></p>
+<p>多继承下的C++模型</p>
+<p>多重继承关系如下：<br><img src="./c-object/多继承关系.png" alt=""></p>
+<p>对象模型如下<br><img src="./c-object/多重继承的c++对象模型.png" alt=""><br><a id="more"></a></p>
 <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>被合成的默认构造函数只满足编译器的需求 而不是程序的需求</p>
 <p>有四种情况使用被合成的默认构造函数<br>（1）带有默认构造函数的成员对象变量<br>（2）带有默认构造函数的基类 子类调用基类默认构造函数<br>（3）带有virtual function的类<br>（4）带有virtual base class 的类</p>
 <p>在默认构造函数中 只有基类的对象成员 和 自身的对象成员变量会被初始化<br>其它的non-static 变量 如整数 指针不会被初始化</p>
-<p>拷贝构造使用的情况<br>（1） 用于第一次作为初值进行初始化 X x;  X xx=x;<br>（2） 函数传递  值传递<br>（3） 函数返回值</p>
-<p>拷贝构造函数在编译器需要时生成 使用默认成员拷贝 对成员变量逐个拷贝</p>
-
+<p>拷贝构造函数在编译器需要时生成 使用默认成员拷贝 对成员变量逐个拷贝 bitwise copy 位逐次拷贝<br>拷贝构造使用的情况<br>（1） 用于第一次作为初值进行初始化 X x;  X xx=x;<br>（2） 函数传递  值传递<br>（3） 函数返回值</p>
+<p>举例：<br><img src="./c-object/返回拷贝1.png" alt=""></p>
+<p><img src="./c-object/返回拷贝2.png" alt=""></p>
+<p>优化后结果 少调用一次构造函数</p>
+<p><img src="./c-object/返回拷贝3.png" alt=""></p>
+<p><img src="./c-object/返回拷贝4.png" alt=""></p>
+<p>使用成员初始化列表的情况</p>
+<p>（1） 初始化引用变量</p>
+<p>（2） 初始化const 成员</p>
+<p>（3） 调用基类的构造函数 构造函数有参数</p>
+<p>（4） 调用对象成员的构造函数 构造函数有参数</p>
+<p>使用成员初始化列表的初始化顺序与 列表顺序无关 与类中变量定义顺序相关</p>
+<h2 id="Data语意学"><a href="#Data语意学" class="headerlink" title="Data语意学"></a>Data语意学</h2><h2 id="Function语意学"><a href="#Function语意学" class="headerlink" title="Function语意学"></a>Function语意学</h2><h2 id="构造-解构-拷贝-语意学"><a href="#构造-解构-拷贝-语意学" class="headerlink" title="构造 解构 拷贝 语意学"></a>构造 解构 拷贝 语意学</h2><h2 id="执行期-语意学"><a href="#执行期-语意学" class="headerlink" title="执行期 语意学"></a>执行期 语意学</h2><h2 id="站在对象模型的尖端"><a href="#站在对象模型的尖端" class="headerlink" title="站在对象模型的尖端"></a>站在对象模型的尖端</h2>
       
     </div>
     
@@ -517,7 +545,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#c-对象模型"><span class="nav-number">1.</span> <span class="nav-text">c++对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#c-对象模型"><span class="nav-number">1.</span> <span class="nav-text">c++对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data语意学"><span class="nav-number">3.</span> <span class="nav-text">Data语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function语意学"><span class="nav-number">4.</span> <span class="nav-text">Function语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造-解构-拷贝-语意学"><span class="nav-number">5.</span> <span class="nav-text">构造 解构 拷贝 语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行期-语意学"><span class="nav-number">6.</span> <span class="nav-text">执行期 语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#站在对象模型的尖端"><span class="nav-number">7.</span> <span class="nav-text">站在对象模型的尖端</span></a></li></ol></div>
             
 
           </div>

@@ -345,7 +345,17 @@
 <h2 id="c-对象模型"><a href="#c-对象模型" class="headerlink" title="c++对象模型"></a>c++对象模型</h2><p>C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual)</p>
 <p>static data  static function non-static function 存放在对象之外</p>
 <p>non-static data 和 virtual function 存入对象内</p>
-<p>vtbl是存储指向虚函数的指针的表格 vptr指向相关的vtbl    </p>
+<p>在此模型下，nonstatic 数据成员被置于每一个类对象中，而static数据成员被置于类对象之外。static与nonstatic函数也都放在类对象之外，而对于virtual 函数，则通过虚函数表+虚指针来支持。</p>
+<p>vptr是虚函数 虚函数指针指向虚函数表,虚函数表中存储的是一系列虚函数的地址，<br>虚函数地址出现的顺序与类中虚函数声明的顺序一致。</p>
+<p>对象只包含非静态成员变量和vptr 虚函数指针  指向类生成的虚表。</p>
+<p><img src="./c-object/非继承c++对象模型.png" alt=""></p>
+<p>c++继承的对象模型示意图</p>
+<p>单继承的 C++模型</p>
+<p>类之间关系如下：<br><img src="./c-object/单继承关系.png" alt=""></p>
+<p>对象模型如下：<br><img src="./c-object/单继承c++模型.png" alt=""></p>
+<p>多继承下的C++模型</p>
+<p>多重继承关系如下：<br><img src="./c-object/多继承关系.png" alt=""></p>
+<p>对象模型如下<br><img src="./c-object/多重继承的c++对象模型.png" alt=""><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/17/c-object/#more" rel="contents">
