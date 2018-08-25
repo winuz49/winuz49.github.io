@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="from 牛客网　and c++ primer strcpy函数实现　使用assert　判断 是否为NULL 使用while赋值 返回首位地址 char * strcpy( char *strDest, const char *strSrc )  {  assert( (strDest != NULL) &amp;amp;&amp;amp; (strSrc != NULL) );  char *address =">
+<meta name="description" content="from 牛客网　and c++ primer strcpy函数实现　使用assert　判断 是否为NULL 使用while赋值 返回首位地址 char * strcpy( char *strDest, const char *strSrc ) {  assert( (strDest != NULL) &amp;amp;&amp;amp; (strSrc != NULL) );  char *address =">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c++查漏补缺">
 <meta property="og:url" content="http://yoursite.com/2018/04/16/basic-c/index.html">
 <meta property="og:site_name" content="Winuzz">
-<meta property="og:description" content="from 牛客网　and c++ primer strcpy函数实现　使用assert　判断 是否为NULL 使用while赋值 返回首位地址 char * strcpy( char *strDest, const char *strSrc )  {  assert( (strDest != NULL) &amp;amp;&amp;amp; (strSrc != NULL) );  char *address =">
+<meta property="og:description" content="from 牛客网　and c++ primer strcpy函数实现　使用assert　判断 是否为NULL 使用while赋值 返回首位地址 char * strcpy( char *strDest, const char *strSrc ) {  assert( (strDest != NULL) &amp;amp;&amp;amp; (strSrc != NULL) );  char *address =">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/basic-c/sizeof总结.png">
 <meta property="og:image" content="http://yoursite.com/images/basic-c/lambda_1.png">
@@ -92,10 +92,10 @@
 <meta property="og:image" content="http://yoursite.com/images/basic-c/lambda_3.png">
 <meta property="og:image" content="http://yoursite.com/images/basic-c/正则.png">
 <meta property="og:image" content="http://yoursite.com/images/basic-c/异常类层次.png">
-<meta property="og:updated_time" content="2018-07-25T08:54:01.024Z">
+<meta property="og:updated_time" content="2018-08-25T14:37:01.252Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c++查漏补缺">
-<meta name="twitter:description" content="from 牛客网　and c++ primer strcpy函数实现　使用assert　判断 是否为NULL 使用while赋值 返回首位地址 char * strcpy( char *strDest, const char *strSrc )  {  assert( (strDest != NULL) &amp;amp;&amp;amp; (strSrc != NULL) );  char *address =">
+<meta name="twitter:description" content="from 牛客网　and c++ primer strcpy函数实现　使用assert　判断 是否为NULL 使用while赋值 返回首位地址 char * strcpy( char *strDest, const char *strSrc ) {  assert( (strDest != NULL) &amp;amp;&amp;amp; (strSrc != NULL) );  char *address =">
 <meta name="twitter:image" content="http://yoursite.com/images/basic-c/sizeof总结.png">
 
 
@@ -352,11 +352,11 @@
 <h2 id="strcpy函数实现"><a href="#strcpy函数实现" class="headerlink" title="strcpy函数实现　"></a>strcpy函数实现　</h2><p>使用assert　判断 是否为NULL</p>
 <p>使用while赋值</p>
 <p>返回首位地址</p>
-<pre><code>char * strcpy( char *strDest, const char *strSrc ) 
+<pre><code>char * strcpy( char *strDest, const char *strSrc )
 {
  assert( (strDest != NULL) &amp;&amp; (strSrc != NULL) );
- char *address = strDest; 
- while( (*strDest++ = * strSrc++) != ‘\0’ ); 
+ char *address = strDest;
+ while( (*strDest++ = * strSrc++) != ‘\0’ );
  return address;｝
 </code></pre> <a id="more"></a>
 <h2 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h2><p>　“野指针”不是NULL指针，是指向“垃圾”内存的指针。人们一般不会错用NULL指针，因为用if语句很容易判断。但是“野指针”是很危险的，if语句对它不起作用。野指针的成因主要有两种：</p>
@@ -393,7 +393,7 @@ extern “C” {
 <h2 id="内联函数和宏定义的区别"><a href="#内联函数和宏定义的区别" class="headerlink" title="内联函数和宏定义的区别?"></a>内联函数和宏定义的区别?</h2><p>内联函数和宏很类似，而区别在于，宏是由预处理器对宏进行替代，而内联函数是通过编译器控制来实现的。而且内联函数是真正的函数，只是在需要用到的时候，内联函数像宏一样的展开，所以取消了函数的参数压栈，减少了调用的开销。你可以象调用函数一样来调用内联函数，而不必担心会产生于处理宏的一些问题。</p>
 <h2 id="‘-0’的位置"><a href="#‘-0’的位置" class="headerlink" title="‘\0’的位置　"></a>‘\0’的位置　</h2><p>举例子　编写一个函数，作用是把一个char组成的字符串循环右移n个。</p>
 <pre><code> void LoopMove(char *str, int steps)
-｛ 
+｛
     char tmp[MAXSIZE];
     int len = strlen(str);
     strcpy(temp, str+len-steps);
@@ -454,7 +454,7 @@ String &amp; String::operator =(const String &amp;other)
 <p>（3）在一个函数声明中，const可以修饰形参，表明它是一个输入参数，在函数内部不能改变其值；</p>
 <p>（4）对于类的成员函数，若指定其为const类型，则表明其是一个常函数，不能修改类的 成员变量；</p>
 <p>（5）对于类的成员函数，有时候必须指定其返回值为const类型，以使得其返回值不为“左值”。例如：<br>const classA operator(const classA&amp; a1,const classA&amp; a2);<br>operator的返回结果必须是一个const对象。如果不是，这样的变态代码也不会编译出错：<br>classA a, b, c;<br>(a b) = c; // 对ab的结果赋值<br>操作(a * b) = c显然不符合编程者的初衷，也没有任何意义。</p>
-<pre><code>const 
+<pre><code>const
 char * const cp;
 cp is a const pointer to char
 
@@ -463,7 +463,7 @@ p is a pointer to const char;
 </code></pre><h2 id="判断大端法和小端法"><a href="#判断大端法和小端法" class="headerlink" title="判断大端法和小端法"></a>判断大端法和小端法</h2><pre><code>int checkCPU()
 {{
     union w
-    { 
+    {
     int a;
     char b;} c;
     c.a = 1;
@@ -551,14 +551,14 @@ private:
 public:
     Test():i(0) {}
     Test(T k);
-    ~Test(){} 
+    ~Test(){}
     void print();
     T operator+(T x); };
 </code></pre><p>能定义友元 使用using定义别名</p>
 <p>一个类（普通类 类模板）可以包含本身是模板的成员函数。这种成员函数称为成员模板 ，不能是虚函数</p>
 <h2 id="特殊标准库"><a href="#特殊标准库" class="headerlink" title="特殊标准库"></a>特殊标准库</h2><p>tuple 可以拥有任意数量的成员</p>
 <p>bitset 方便处理二进制的类模板</p>
-<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p><img src="/images/basic-c/正则.png" alt=""> </p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p><img src="/images/basic-c/正则.png" alt=""></p>
 <p>随机数 分布类型 随机数引擎 设置随机数发生器种子</p>
 <p>设置浮点数精度 cout.precision() 或 setprecision</p>
 <h2 id="大型程序工具"><a href="#大型程序工具" class="headerlink" title="大型程序工具"></a>大型程序工具</h2><p>(1) 异常处理<br>栈展开　栈展开过程沿着嵌套函数的调用链不断查找，知道找到异常匹配的catch子句为止　没有找到匹配的退出主函数。通俗的讲在本函数没有找到catch　继续到外层找，直到找到为止，找不到退出函数</p>
@@ -591,7 +591,43 @@ public:
 extern &quot;C&quot; {
     int strcmp(const char*, const char *);
     char *strcat(char*，const char *);}
-</code></pre>
+</code></pre><h2 id="c-内存泄露"><a href="#c-内存泄露" class="headerlink" title="c++内存泄露"></a>c++内存泄露</h2><p>内存泄漏(memory leak)是指由于疏忽或错误造成了程序未能释放掉不再使用的内存的情况。</p>
+<p>出现内存泄露的情况<br>（1）堆内存泄漏 （Heap leak）。对内存指的是程序运行中根据需要分配通过malloc,realloc new等从堆中分配的一块内存，再是完成后必须通过调用对应的 free或者delete 删掉。如果程序的设计的错误导致这部分内存没有被释放，那么此后这块内存将不会被使用，就会产生Heap Leak.</p>
+<p>（2）系统资源泄露（Resource Leak）.主要指程序使用系统分配的资源比如 Bitmap,handle ,SOCKET等没有使用相应的函数释放掉，导致系统资源的浪费，严重可导致系统效能降低，系统运行不稳定。</p>
+<p>⑴ 使用工具软件BoundsChecker，BoundsChecker是一个运行时错误检测工具，它主要定位程序运行时期发生的各种错误。</p>
+<p>⑵ 调试运行DEBUG版程序，运用以下技术：CRT(C run-time libraries)、运行时函数调用堆栈、内存泄漏时提示的内存分配序号(集成开发环境OUTPUT窗口)，综合分析内存泄漏的原因，排除内存泄漏。</p>
+<p>避免内存泄露的方法 使用智能指针</p>
+<p>shared_ptr使用引用计数，每一个shared_ptr的拷贝都指向相同的内存。在最后一个shared_ptr析构的时候，内存才会被释放。</p>
+<p>1.不要用一个原始指针初始化多个shared_ptr。<br>2.不要再函数实参中创建shared_ptr，在调用函数之前先定义以及初始化它。<br>3.不要将this指针作为shared_ptr返回出来。<br>4.要避免循环引用。</p>
+<p>（1）shared_ptr共享的智能指针：</p>
+<p>shared_ptr使用引用计数，每一个shared_ptr的拷贝都指向相同的内存。在最后一个shared_ptr析构的时候，内存才会被释放。</p>
+<p>（2）unique_ptr独占的智能指针：</p>
+<p><1>Unique_ptr是一个独占的智能指针，他不允许其他的智能指针共享其内部的指针，不允许通过赋值将一个unique_ptr赋值给另外一个 unique_ptr。</1></p>
+<p><2>unique_ptr不允许复制，但可以通过函数返回给其他的unique_ptr，还可以通过std::move来转移到其他的unique_ptr，这样它本身就不再 拥有原来指针的所有权了。</2></p>
+<p>(3)weak_ptr弱引用的智能指针：<br>弱引用的智能指针weak_ptr是用来监视shared_ptr的，不会使引用计数加一，它不管理shared_ptr内部的指针，主要是为了监视shared_ptr的生命 周期，更像是shared_ptr的一个助手。 weak_ptr没有重载运算符*和-&gt;，因为它不共享指针，不能操作资源，主要是为了通过shared_ptr获得资源的监测权，它的构造不会增加引用计数，它的析构不会减少引用计数，纯粹只是作为一个旁观者来监视shared_ptr中关连的资源是否存在。 weak_ptr还可以用来返回this指针和解决循环引用的问题。</p>
+<h2 id="c-11"><a href="#c-11" class="headerlink" title="c++11"></a>c++11</h2><h3 id="关键字及新语法"><a href="#关键字及新语法" class="headerlink" title="关键字及新语法"></a>关键字及新语法</h3><p>(1)auto关键字及用法<br>　　auto并没有让C++成为弱类型语言，也没有弱化变量什么，只是使用auto的时候，编译器根据上下文情况，确定auto变量的真正类型。</p>
+<p>(2)nullptr关键字及用法</p>
+<p>NULL 编译器解析为0  nullptr为空指针</p>
+<p>void func(int index);<br>void func(int * index)</p>
+<p>func(NULL)<br>func(nullptr)</p>
+<p>(3)for循环语法</p>
+<p>for each</p>
+<h3 id="STL容器"><a href="#STL容器" class="headerlink" title="STL容器"></a>STL容器</h3><p>(1)std::array</p>
+<p>数组</p>
+<p>(2)std::forward_list</p>
+<p>单向链表 list是双向链表</p>
+<p>(3)std::unordered_map</p>
+<p>哈希表</p>
+<p>(4)std::unordered_set</p>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>(1)std::thread</p>
+<p>(2)st::atomic<br>支持原子数据类型 自己加锁</p>
+<p>(3) std::condition_variable</p>
+<h3 id="智能指针内存管理"><a href="#智能指针内存管理" class="headerlink" title="智能指针内存管理"></a>智能指针内存管理</h3><p>(1)std::shared_ptr 引用计数</p>
+<p>(2)std::weak_ptr 解决智能指针相互引用</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>(1)std::function、std::bind封装可执行对象</p>
+<p>函数指针</p>
+<p>(2)lamda表达式</p>
+
       
     </div>
     
@@ -704,7 +740,7 @@ extern &quot;C&quot; {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -759,7 +795,7 @@ extern &quot;C&quot; {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#strcpy函数实现"><span class="nav-number">1.</span> <span class="nav-text">strcpy函数实现　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#野指针"><span class="nav-number">2.</span> <span class="nav-text">野指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sizeof-总结"><span class="nav-number">3.</span> <span class="nav-text">sizeof 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宏定义"><span class="nav-number">4.</span> <span class="nav-text">宏定义　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内联函数和宏定义的区别"><span class="nav-number">5.</span> <span class="nav-text">内联函数和宏定义的区别?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#‘-0’的位置"><span class="nav-number">6.</span> <span class="nav-text">‘\0’的位置　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-原型"><span class="nav-number">7.</span> <span class="nav-text">String 原型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static-and-const"><span class="nav-number">8.</span> <span class="nav-text">static and const</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断大端法和小端法"><span class="nav-number">9.</span> <span class="nav-text">判断大端法和小端法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可变新参的函数"><span class="nav-number">10.</span> <span class="nav-text">可变新参的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lambda表达式"><span class="nav-number">11.</span> <span class="nav-text">lambda表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#智能指针"><span class="nav-number">12.</span> <span class="nav-text">智能指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝发生的情况"><span class="nav-number">13.</span> <span class="nav-text">拷贝发生的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚函数"><span class="nav-number">14.</span> <span class="nav-text">虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问控制与继承"><span class="nav-number">15.</span> <span class="nav-text">访问控制与继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚析构函数"><span class="nav-number">16.</span> <span class="nav-text">虚析构函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板"><span class="nav-number">17.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊标准库"><span class="nav-number">18.</span> <span class="nav-text">特殊标准库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">19.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大型程序工具"><span class="nav-number">20.</span> <span class="nav-text">大型程序工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊工具和技术"><span class="nav-number">21.</span> <span class="nav-text">特殊工具和技术</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#strcpy函数实现"><span class="nav-number">1.</span> <span class="nav-text">strcpy函数实现　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#野指针"><span class="nav-number">2.</span> <span class="nav-text">野指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sizeof-总结"><span class="nav-number">3.</span> <span class="nav-text">sizeof 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宏定义"><span class="nav-number">4.</span> <span class="nav-text">宏定义　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内联函数和宏定义的区别"><span class="nav-number">5.</span> <span class="nav-text">内联函数和宏定义的区别?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#‘-0’的位置"><span class="nav-number">6.</span> <span class="nav-text">‘\0’的位置　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-原型"><span class="nav-number">7.</span> <span class="nav-text">String 原型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static-and-const"><span class="nav-number">8.</span> <span class="nav-text">static and const</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断大端法和小端法"><span class="nav-number">9.</span> <span class="nav-text">判断大端法和小端法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可变新参的函数"><span class="nav-number">10.</span> <span class="nav-text">可变新参的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lambda表达式"><span class="nav-number">11.</span> <span class="nav-text">lambda表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#智能指针"><span class="nav-number">12.</span> <span class="nav-text">智能指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝发生的情况"><span class="nav-number">13.</span> <span class="nav-text">拷贝发生的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚函数"><span class="nav-number">14.</span> <span class="nav-text">虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问控制与继承"><span class="nav-number">15.</span> <span class="nav-text">访问控制与继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚析构函数"><span class="nav-number">16.</span> <span class="nav-text">虚析构函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板"><span class="nav-number">17.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊标准库"><span class="nav-number">18.</span> <span class="nav-text">特殊标准库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">19.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大型程序工具"><span class="nav-number">20.</span> <span class="nav-text">大型程序工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊工具和技术"><span class="nav-number">21.</span> <span class="nav-text">特殊工具和技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-内存泄露"><span class="nav-number">22.</span> <span class="nav-text">c++内存泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-11"><span class="nav-number">23.</span> <span class="nav-text">c++11</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字及新语法"><span class="nav-number">23.1.</span> <span class="nav-text">关键字及新语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STL容器"><span class="nav-number">23.2.</span> <span class="nav-text">STL容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程"><span class="nav-number">23.3.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#智能指针内存管理"><span class="nav-number">23.4.</span> <span class="nav-text">智能指针内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">23.5.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
             
 
           </div>
