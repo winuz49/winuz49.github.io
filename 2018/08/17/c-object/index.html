@@ -95,7 +95,13 @@
 <meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/返回拷贝2.png">
 <meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/返回拷贝3.png">
 <meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/返回拷贝4.png">
-<meta property="og:updated_time" content="2018-08-25T15:14:42.025Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/3_继承关系.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/3_内存分配.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/3_对象大小.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/3_多重继承.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/3_多重继承2.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/17/c-object/c-object/3_虚继承.png">
+<meta property="og:updated_time" content="2018-10-07T23:59:55.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c++对象模型">
 <meta name="twitter:description" content="from 深入浅出c++对象模型 c++对象模型C++类具有的结构 data member(分为static和 non-static) function member( static non-static virtual) static data  static function non-static function 存放在对象之外 non-static data 和 virtual funct">
@@ -362,6 +368,9 @@
 <p><img src="./c-object/非继承c++对象模型.png" alt=""></p>
 <p>c++继承的对象模型示意图</p>
 <p>单继承的 C++模型</p>
+<p>基类指针(bptr)，基类指针指向指向一个基类表(base class table),同样的，由于间接性导致了空间和存取时间上的额外负担，优点则是无须改变子类对象本身就可以更改基类。表格驱动模型的图就不再贴出来了。</p>
+<p>单继承只有一个vptr</p>
+<p>在C++对象模型中，对于一般继承（这个一般是相对于虚拟继承而言），若子类重写（overwrite）了父类的虚函数，则子类虚函数将覆盖虚表中对应的父类虚函数(注意子类与父类拥有各自的一个虚函数表)；若子类并无overwrite父类虚函数，而是声明了自己新的虚函数，则该虚函数地址将扩充到虚函数表最后（在vs中无法通过监视看到扩充的结果，不过我们通过取地址的方法可以做到，子类新的虚函数确实在父类子物体的虚函数表末端）。而对于虚继承，若子类overwrite父类虚函数，同样地将覆盖父类子物体中的虚函数表对应位置，而若子类声明了自己新的虚函数，则编译器将为子类增加一个新的虚表指针vptr。</p>
 <p>类之间关系如下：<br><img src="./c-object/单继承关系.png" alt=""></p>
 <p>对象模型如下：<br><img src="./c-object/单继承c++模型.png" alt=""></p>
 <p>多继承下的C++模型</p>
@@ -371,9 +380,9 @@
 <p>有四种情况使用被合成的默认构造函数<br>（1）带有默认构造函数的成员对象变量<br>（2）带有默认构造函数的基类 子类调用基类默认构造函数<br>（3）带有virtual function的类<br>（4）带有virtual base class 的类</p>
 <p>在默认构造函数中 只有基类的对象成员 和 自身的对象成员变量会被初始化<br>其它的non-static 变量 如整数 指针不会被初始化</p>
 <p>拷贝构造函数在编译器需要时生成 使用默认成员拷贝 对成员变量逐个拷贝 bitwise copy 位逐次拷贝<br>拷贝构造使用的情况<br>（1） 用于第一次作为初值进行初始化 X x;  X xx=x;<br>（2） 函数传递  值传递<br>（3） 函数返回值</p>
-<p>举例：<br><img src="./c-object/返回拷贝1.png" alt=""></p>
+<p>返回值的初始化  传入返回值的引用 调用两次构造函数<br>举例：<br><img src="./c-object/返回拷贝1.png" alt=""></p>
 <p><img src="./c-object/返回拷贝2.png" alt=""></p>
-<p>优化后结果 少调用一次构造函数</p>
+<p>优化后结果  返回结果为构造函数 少调用一次构造函数</p>
 <p><img src="./c-object/返回拷贝3.png" alt=""></p>
 <p><img src="./c-object/返回拷贝4.png" alt=""></p>
 <p>使用成员初始化列表的情况</p>
@@ -382,7 +391,20 @@
 <p>（3） 调用基类的构造函数 构造函数有参数</p>
 <p>（4） 调用对象成员的构造函数 构造函数有参数</p>
 <p>使用成员初始化列表的初始化顺序与 列表顺序无关 与类中变量定义顺序相关</p>
-<h2 id="Data语意学"><a href="#Data语意学" class="headerlink" title="Data语意学"></a>Data语意学</h2><h2 id="Function语意学"><a href="#Function语意学" class="headerlink" title="Function语意学"></a>Function语意学</h2><h2 id="构造-解构-拷贝-语意学"><a href="#构造-解构-拷贝-语意学" class="headerlink" title="构造 解构 拷贝 语意学"></a>构造 解构 拷贝 语意学</h2><h2 id="执行期-语意学"><a href="#执行期-语意学" class="headerlink" title="执行期 语意学"></a>执行期 语意学</h2><h2 id="站在对象模型的尖端"><a href="#站在对象模型的尖端" class="headerlink" title="站在对象模型的尖端"></a>站在对象模型的尖端</h2>
+<h2 id="Data语意学"><a href="#Data语意学" class="headerlink" title="Data语意学"></a>Data语意学</h2><h3 id="绑定"><a href="#绑定" class="headerlink" title="绑定"></a>绑定</h3><p>空对象 sizeof为1 编译器插入一个char数据 使得不同的空对象地址不同</p>
+<p>字节对齐 32位机器上是4个字节</p>
+<p>例子如下所示<br>继承关系：<br><img src="./c-object/3_继承关系.png" alt=""></p>
+<p>对象占用内存情况<br><img src="./c-object/3_内存分配.png" alt=""></p>
+<p>对象大小：<br><img src="./c-object/3_对象大小.png" alt=""></p>
+<p>data member的绑定 将嵌入的类型声明放入 class的起始位置 防止全局变量的影响</p>
+<h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><p>在同一个access section中（也就是 private protected public等区段）中 成员变量的排序顺序符合较晚出现的成员变量出现在较高的地址上 考虑到字节对齐</p>
+<h3 id="data-member的继承"><a href="#data-member的继承" class="headerlink" title="data member的继承"></a>data member的继承</h3><p>vptr放在class object的前端或尾端 视编译器而定</p>
+<p>多重继承<br><img src="./c-object/3_多重继承.png" alt=""></p>
+<p><img src="./c-object/3_多重继承2.png" alt=""></p>
+<p>虚拟继承  支持相同的基类只有一份</p>
+<p><img src="./c-object/3_虚继承.png" alt=""><br>不变局部和共享局部 不变局部是无论后续如何衍化 通过固定的offset可以存取这些数据 共享局部就是virtual base class subobject 即相同的部分数据 随着派生操作而变化</p>
+<p>解决策略 为派生类增加指向虚基类的指针 为了解决多层次继承指针多次寻找问题 可以直接存储offset</p>
+<h2 id="Function语意学"><a href="#Function语意学" class="headerlink" title="Function语意学"></a>Function语意学</h2><h2 id="构造-解构-拷贝-语意学"><a href="#构造-解构-拷贝-语意学" class="headerlink" title="构造 解构 拷贝 语意学"></a>构造 解构 拷贝 语意学</h2><h2 id="执行期-语意学"><a href="#执行期-语意学" class="headerlink" title="执行期 语意学"></a>执行期 语意学</h2><h2 id="站在对象模型的尖端"><a href="#站在对象模型的尖端" class="headerlink" title="站在对象模型的尖端"></a>站在对象模型的尖端</h2>
       
     </div>
     
@@ -495,7 +517,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -550,7 +572,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#c-对象模型"><span class="nav-number">1.</span> <span class="nav-text">c++对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data语意学"><span class="nav-number">3.</span> <span class="nav-text">Data语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function语意学"><span class="nav-number">4.</span> <span class="nav-text">Function语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造-解构-拷贝-语意学"><span class="nav-number">5.</span> <span class="nav-text">构造 解构 拷贝 语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行期-语意学"><span class="nav-number">6.</span> <span class="nav-text">执行期 语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#站在对象模型的尖端"><span class="nav-number">7.</span> <span class="nav-text">站在对象模型的尖端</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#c-对象模型"><span class="nav-number">1.</span> <span class="nav-text">c++对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data语意学"><span class="nav-number">3.</span> <span class="nav-text">Data语意学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定"><span class="nav-number">3.1.</span> <span class="nav-text">绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布局"><span class="nav-number">3.2.</span> <span class="nav-text">布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-member的继承"><span class="nav-number">3.3.</span> <span class="nav-text">data member的继承</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function语意学"><span class="nav-number">4.</span> <span class="nav-text">Function语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造-解构-拷贝-语意学"><span class="nav-number">5.</span> <span class="nav-text">构造 解构 拷贝 语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行期-语意学"><span class="nav-number">6.</span> <span class="nav-text">执行期 语意学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#站在对象模型的尖端"><span class="nav-number">7.</span> <span class="nav-text">站在对象模型的尖端</span></a></li></ol></div>
             
 
           </div>

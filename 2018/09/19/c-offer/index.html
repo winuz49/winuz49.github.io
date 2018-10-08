@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基础知识赋值运算符函数知识点： (1)类的成员函数可以直接访问作为其参数的同类型对象的私有成员。 (2) 一个类关键的函数包括 构造函数 拷贝构造 析构函数 运算符重载（=赋值重载） (3) 在=赋值重载函数中 需要注意 返回值是引用 可以作为参数接着传递 以此实现多次赋值；需要判断传入参数是否是this若是this 一旦释放内存 传入参数内存也会丢失 找不回需要赋值的内容了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="经典算法题总结">
+<meta property="og:url" content="http://yoursite.com/2018/09/19/c-offer/index.html">
+<meta property="og:site_name" content="Winuzz">
+<meta property="og:description" content="基础知识赋值运算符函数知识点： (1)类的成员函数可以直接访问作为其参数的同类型对象的私有成员。 (2) 一个类关键的函数包括 构造函数 拷贝构造 析构函数 运算符重载（=赋值重载） (3) 在=赋值重载函数中 需要注意 返回值是引用 可以作为参数接着传递 以此实现多次赋值；需要判断传入参数是否是this若是this 一旦释放内存 传入参数内存也会丢失 找不回需要赋值的内容了">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-26T01:00:41.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="经典算法题总结">
+<meta name="twitter:description" content="基础知识赋值运算符函数知识点： (1)类的成员函数可以直接访问作为其参数的同类型对象的私有成员。 (2) 一个类关键的函数包括 构造函数 拷贝构造 析构函数 运算符重载（=赋值重载） (3) 在=赋值重载函数中 需要注意 返回值是引用 可以作为参数接着传递 以此实现多次赋值；需要判断传入参数是否是this若是this 一旦释放内存 传入参数内存也会丢失 找不回需要赋值的内容了">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/19/c-offer/"/>
+
+
+
+
+
+  <title>经典算法题总结 | Winuzz</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Winuzz</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">stay hungry stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/19/c-offer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zz_wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Winuzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">经典算法题总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-19T16:55:59+08:00">
+                2018-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="赋值运算符函数"><a href="#赋值运算符函数" class="headerlink" title="赋值运算符函数"></a>赋值运算符函数</h3><p>知识点：</p>
+<p>(1)类的成员函数可以直接访问作为其参数的同类型对象的私有成员。</p>
+<p>(2) 一个类关键的函数包括 构造函数 拷贝构造 析构函数 运算符重载（=赋值重载）</p>
+<p>(3) 在=赋值重载函数中 需要注意 返回值是引用 可以作为参数接着传递 以此实现多次赋值；需要判断传入参数是否是this<br>若是this 一旦释放内存 传入参数内存也会丢失 找不回需要赋值的内容了</p>
+<a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyString</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">MyString(<span class="keyword">char</span> *p_data=<span class="literal">nullptr</span>);</span><br><span class="line">MyString(<span class="keyword">const</span> MyString&amp; other);</span><br><span class="line">~MyString(<span class="keyword">void</span>);</span><br><span class="line"></span><br><span class="line">MyString&amp; <span class="keyword">operator</span> = (<span class="keyword">const</span> MyString&amp; other);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"><span class="keyword">char</span> *m_data;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">MyString::MyString(<span class="keyword">char</span> *p_data)&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(p_data == <span class="literal">nullptr</span>)</span><br><span class="line">&#123;</span><br><span class="line">    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1</span>];</span><br><span class="line">    m_data[<span class="number">0</span>]=<span class="string">'\0'</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> length = <span class="built_in">strlen</span>(p_data);</span><br><span class="line">    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[length+<span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(m_data, p_data);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyString::MyString(<span class="keyword">const</span> MyString &amp;other)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">int</span> length = <span class="built_in">strlen</span>(other.m_data);</span><br><span class="line">m_data = <span class="keyword">new</span> <span class="keyword">char</span>[length+<span class="number">1</span>];</span><br><span class="line"><span class="built_in">strcpy</span>(m_data, other.m_data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyString::~MyString()</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">delete</span> []m_data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyString&amp; MyString::<span class="keyword">operator</span> =(<span class="keyword">const</span> MyString&amp; other)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">this</span> == &amp;other)</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> []m_data;</span><br><span class="line">m_data = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> length = <span class="built_in">strlen</span>(other.m_data);</span><br><span class="line">m_data = <span class="keyword">new</span> <span class="keyword">char</span>[length+<span class="number">1</span>];</span><br><span class="line"><span class="built_in">strcpy</span>(m_data, other.m_data);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 考虑安全性写法 new出现异常</span></span><br><span class="line">MyString&amp; MyString::<span class="keyword">operator</span> =(<span class="keyword">const</span> MyString&amp; other)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> != &amp;other)</span><br><span class="line">    &#123;</span><br><span class="line">        MyString str_tmp(other);</span><br><span class="line">        <span class="keyword">char</span> * ch_tmp = str_tmp.m_data;</span><br><span class="line">        str_tmp.m_data = m_data;</span><br><span class="line">        m_data = ch_tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> MyString::print()</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;m_data&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现单例模式"><a href="#实现单例模式" class="headerlink" title="实现单例模式"></a>实现单例模式</h3><p>在多线程环境下只存在一个实例</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Class Singleton</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  Singleton();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">static</span> Singleton* <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">      <span class="keyword">static</span> Singleton instance;</span><br><span class="line">      <span class="keyword">return</span> &amp;instance;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>模板化后写法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">singleton</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    singleton()&#123;&#125;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    singleton(<span class="keyword">const</span> singleton&amp;)&#123;&#125;;<span class="comment">//禁止拷贝</span></span><br><span class="line">    singleton&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> singleton&amp;)&#123;&#125;;<span class="comment">//禁止赋值</span></span><br><span class="line">    <span class="keyword">static</span> T* m_instance;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> T* <span class="title">GetInstance</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T</span>* <span class="title">singleton</span>&lt;T&gt;:</span>:GetInstance()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> m_instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T</span>* <span class="title">singleton</span>&lt;T&gt;:</span>:m_instance = <span class="keyword">new</span> T();</span><br></pre></td></tr></table></figure>
+<h3 id="二维数组的查找"><a href="#二维数组的查找" class="headerlink" title="二维数组的查找"></a>二维数组的查找</h3><p>分析 查找时出现的三种情况 即可得到答案</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span>* matrix, <span class="keyword">int</span> rows, <span class="keyword">int</span> columns, <span class="keyword">int</span> number)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> found = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(matrix!=<span class="literal">nullptr</span> &amp;&amp; rows&gt;<span class="number">0</span> &amp;&amp; columns&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> row = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> column = columns<span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(row&lt;rows &amp;&amp; column&gt;=<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[row*column+column] == number)</span><br><span class="line">            &#123;</span><br><span class="line">                found = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(matrix[row*column+column]&gt;number)</span><br><span class="line">                --column;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                ++row;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> found;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="替换空格"><a href="#替换空格" class="headerlink" title="替换空格"></a>替换空格</h3><p>从尾部开始替换<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">void replace_blank(char str[], int length)</span><br><span class="line">&#123;</span><br><span class="line">    if(str==nullptr || length&lt;=0)</span><br><span class="line">        return ;</span><br><span class="line"></span><br><span class="line">    int origin_length = 0;</span><br><span class="line">    int blank_length = 0;</span><br><span class="line">    int i = 0;</span><br><span class="line">    while(str[i]!=&apos;\0&apos;)</span><br><span class="line">    &#123;</span><br><span class="line">        ++origin_length;</span><br><span class="line">        if(str[i]==&apos; &apos;)</span><br><span class="line">            ++blank_length;</span><br><span class="line">        ++i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int total = origin_length + blank_length*2;</span><br><span class="line">    if(total &gt; length)</span><br><span class="line">        return;</span><br><span class="line"></span><br><span class="line">    int index_origin = origin_length;</span><br><span class="line">    int index_new = total;</span><br><span class="line">    while(index_origin&gt;=0 &amp;&amp; index_new&gt;index_origin)</span><br><span class="line">    &#123;</span><br><span class="line">        if(str[index_origin]==&apos; &apos;)</span><br><span class="line">        &#123;</span><br><span class="line">            str[index_new--] = &apos;0&apos;;</span><br><span class="line">            str[index_new--] = &apos;2&apos;;</span><br><span class="line">            str[index_new--] = &apos;%&apos;;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            str[index_new--] = str[index_origin];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        --index_origin;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="从头到尾打印链表"><a href="#从头到尾打印链表" class="headerlink" title="从头到尾打印链表"></a>从头到尾打印链表</h3><p>使用栈或递归<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_listnode_reverse</span><span class="params">(ListNode *phead)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">stack</span>&lt;ListNode*&gt; nodes;</span><br><span class="line"></span><br><span class="line">    ListNode* node = phead;</span><br><span class="line">    <span class="keyword">while</span>(node!=<span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        nodes.push(node);</span><br><span class="line">        node = node-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!nodes.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        node = nodes.top();</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;node-&gt;key&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        nodes.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h3><h3 id="用两个站实现队列"><a href="#用两个站实现队列" class="headerlink" title="用两个站实现队列"></a>用两个站实现队列</h3><h3 id="旋转数组的最小数字"><a href="#旋转数组的最小数字" class="headerlink" title="旋转数组的最小数字"></a>旋转数组的最小数字</h3><h3 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h3><h3 id="计算1出现的次数"><a href="#计算1出现的次数" class="headerlink" title="计算1出现的次数"></a>计算1出现的次数</h3><h2 id="第八章-新增试题"><a href="#第八章-新增试题" class="headerlink" title="第八章 新增试题"></a>第八章 新增试题</h2><h3 id="滑动窗口的最大值"><a href="#滑动窗口的最大值" class="headerlink" title="滑动窗口的最大值"></a>滑动窗口的最大值</h3><p>使用双向队列 该队列保存当前滑动窗口的最大值 下一个数进来时<br>与当前值进行判断 大于 删除当前值 还需判断最大值是否在活动窗口内</p>
+<h3 id="矩阵中的路径"><a href="#矩阵中的路径" class="headerlink" title="矩阵中的路径"></a>矩阵中的路径</h3><p>回溯法  判断当前节点的四周节点的数据与下一个数据是否相同 不同恢复原来状态。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">hasPathCore</span><span class="params">(<span class="keyword">char</span>* matrix, <span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">char</span>* str, <span class="keyword">bool</span> *visited, <span class="keyword">int</span>&amp; length)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     <span class="built_in">cout</span>&lt;&lt;<span class="string">"len"</span>&lt;&lt;length&lt;&lt;<span class="string">" "</span>&lt;&lt;row&lt;&lt;<span class="string">" "</span>&lt;&lt;col&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">if</span>(str[length] == <span class="string">'\0'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> hasPath = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(row&gt;=<span class="number">0</span> &amp;&amp; row&lt;rows &amp;&amp; col&gt;=<span class="number">0</span> &amp;&amp; col&lt;cols</span><br><span class="line">            &amp;&amp; matrix[row*cols+col] == str[length] &amp;&amp; !visited[row*cols+col])</span><br><span class="line">    &#123;</span><br><span class="line">        visited[row*cols+col] = <span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"len"</span>&lt;&lt;length&lt;&lt;<span class="string">" "</span>&lt;&lt;matrix[row*cols+col]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        ++length;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;length&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">        hasPath = hasPathCore(matrix, row, col<span class="number">-1</span>, rows, cols, str, visited, length)</span><br><span class="line">                || hasPathCore(matrix, row<span class="number">-1</span>, col, rows, cols, str, visited, length)</span><br><span class="line">                || hasPathCore(matrix, row, col+<span class="number">1</span>, rows, cols, str, visited, length)</span><br><span class="line">                || hasPathCore(matrix, row+<span class="number">1</span>, col, rows, cols, str, visited, length);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!hasPath)</span><br><span class="line">        &#123;</span><br><span class="line">            --length;</span><br><span class="line">            visited[row*cols+col] = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hasPath;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">hasPath</span><span class="params">(<span class="keyword">char</span>* matrix, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">char</span>* str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(matrix == <span class="literal">nullptr</span> || rows&lt;<span class="number">1</span> || cols&lt;<span class="number">1</span> || str==<span class="literal">nullptr</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[rows*cols];</span><br><span class="line">    <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(visited, <span class="number">0</span>, rows*cols);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;rows;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;cols;++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//hasPathCore(matrix, i,j,rows,cols, str,visited,length);</span></span><br><span class="line">            <span class="keyword">if</span>(hasPathCore(matrix, i,j,rows,cols, str,visited,length))</span><br><span class="line">            &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> []visited;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="机器人的运动范围"><a href="#机器人的运动范围" class="headerlink" title="机器人的运动范围"></a>机器人的运动范围</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 67 robot moving</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_digit_sum</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sum = sum+n%<span class="number">10</span>;</span><br><span class="line">        n/=<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">bool</span> *visited)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(row&gt;=<span class="number">0</span> &amp;&amp; row&lt;rows &amp;&amp; col&gt;=<span class="number">0</span> &amp;&amp; col&lt;cols &amp;&amp;</span><br><span class="line">            get_digit_sum(row)+get_digit_sum(col) &lt;= threshold &amp;&amp; !visited[row*cols+col])</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">move_count_core</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">bool</span> *visited)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(check(threshold, row, col, rows, cols, visited))</span><br><span class="line">    &#123;</span><br><span class="line">        visited[row*cols+col] = <span class="literal">true</span>;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;row&lt;&lt;" "&lt;&lt;col&lt;&lt;endl;</span></span><br><span class="line">        count = <span class="number">1</span> + move_count_core(threshold, row<span class="number">-1</span>, col, rows, cols, visited)</span><br><span class="line">                + move_count_core(threshold, row+<span class="number">1</span>, col, rows, cols, visited)</span><br><span class="line">                + move_count_core(threshold, row, col<span class="number">-1</span>, rows, cols, visited)</span><br><span class="line">                + move_count_core(threshold, row, col+<span class="number">1</span>, rows, cols, visited);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">move_count</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[rows*cols];</span><br><span class="line">    <span class="built_in">memset</span>(visited, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">bool</span>)*rows*cols);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> count  = move_count_core(threshold, <span class="number">0</span>, <span class="number">0</span>, rows, cols, visited);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">delete</span> [] visited;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_robot</span><span class="params">(<span class="keyword">char</span> *name, <span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span> expected)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(name != <span class="literal">nullptr</span>)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;name&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    <span class="keyword">int</span> count = move_count(threshold, rows, cols);</span><br><span class="line">    <span class="keyword">if</span>(count == expected)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"passed"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"Failed"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    test_robot(<span class="string">"Test1"</span>, <span class="number">5</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">21</span>);</span><br><span class="line">    test_robot(<span class="string">"Test2"</span>, <span class="number">15</span>,<span class="number">20</span>,<span class="number">20</span>,<span class="number">359</span>);</span><br><span class="line">    test_robot(<span class="string">"Test3"</span>, <span class="number">10</span>,<span class="number">1</span>,<span class="number">100</span>,<span class="number">29</span>);</span><br><span class="line">    test_robot(<span class="string">"Test4"</span>, <span class="number">10</span>,<span class="number">1</span>,<span class="number">10</span>,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/25/network-pm/" rel="next" title="服务器编程">
+                <i class="fa fa-chevron-left"></i> 服务器编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zz_wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值运算符函数"><span class="nav-number">1.1.</span> <span class="nav-text">赋值运算符函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现单例模式"><span class="nav-number">1.2.</span> <span class="nav-text">实现单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二维数组的查找"><span class="nav-number">1.3.</span> <span class="nav-text">二维数组的查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换空格"><span class="nav-number">1.4.</span> <span class="nav-text">替换空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从头到尾打印链表"><span class="nav-number">1.5.</span> <span class="nav-text">从头到尾打印链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重建二叉树"><span class="nav-number">1.6.</span> <span class="nav-text">重建二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用两个站实现队列"><span class="nav-number">1.7.</span> <span class="nav-text">用两个站实现队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转数组的最小数字"><span class="nav-number">1.8.</span> <span class="nav-text">旋转数组的最小数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#斐波那契数列"><span class="nav-number">1.9.</span> <span class="nav-text">斐波那契数列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算1出现的次数"><span class="nav-number">1.10.</span> <span class="nav-text">计算1出现的次数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-新增试题"><span class="nav-number">2.</span> <span class="nav-text">第八章 新增试题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#滑动窗口的最大值"><span class="nav-number">2.1.</span> <span class="nav-text">滑动窗口的最大值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵中的路径"><span class="nav-number">2.2.</span> <span class="nav-text">矩阵中的路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器人的运动范围"><span class="nav-number">2.3.</span> <span class="nav-text">机器人的运动范围</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zz_wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
